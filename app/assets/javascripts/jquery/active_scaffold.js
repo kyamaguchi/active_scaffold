@@ -669,7 +669,7 @@ var ActiveScaffold = {
     toggler.children('a').click(function(e) {
       e.preventDefault();
       toggable.toggle(); 
-      jQuery(this).html((toggable.is(':hidden')) ? options.show_label : options.hide_label);
+      jQuery(this).html((toggable.css('visibility') == 'hidden') ? options.show_label : options.hide_label);
       return false;
     });
   },
