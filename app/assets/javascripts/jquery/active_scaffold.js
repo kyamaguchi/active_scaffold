@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
   });
   jQuery(document).on('ajax:complete', '.action_group.dyn ul a', function(event) {
     var action_link = ActiveScaffold.find_action_link(event.target);
-    if (action_link.loading_indicator) action_link.loading_indicator.css('visibility','hidden');  
+    if (action_link.loading_indicator) action_link.loading_indicator.css('visibility','hidden');
     jQuery(event.target).closest('.action_group.dyn ul').remove();
   });
   jQuery(document).on('ajax:beforeSend', 'form.as_form', function(event) {

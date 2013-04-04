@@ -3,13 +3,17 @@ var action_link;
 <% form_selector = "#{element_form_id(:action => :create)}"
 insert_at ||= :top -%>
 <% if active_scaffold_config.list.always_show_create -%>
+console.log('active_scaffold_config.list.always_show_create');
 <%= render :partial => 'update_messages' %>
 <% else -%>
+console.log('active_scaffold_config.list.always_show_create -> else');
 action_link = ActiveScaffold.find_action_link('<%= form_selector %>');
 action_link.update_flash_messages('<%= escape_javascript(render(:partial => 'messages')) %>');
 <% end -%>
 <% if controller.send :successful? -%>
+  console.log('controller.send :successful? -> true');
   <% if render_parent? %>
+    console.log('render_parent? -> true');
     <% if nested_singular_association? %>
       action_link.close(true);
     <% elsif params[:parent_sti] && render_parent_action == :row %>
@@ -18,14 +22,17 @@ action_link.update_flash_messages('<%= escape_javascript(render(:partial => 'mes
       ActiveScaffold.reload('<%= url_for render_parent_options %>');
     <% end %>
   <% elsif active_scaffold_config.create.refresh_list %>
+    console.log('active_scaffold_config.create.refresh_list -> true');
     <%= render :partial => 'refresh_list' %>
   <% elsif params[:parent_controller].nil? %>
+    console.log('params[:parent_controller].nil? -> true');
     <% new_row = render :partial => 'list_record', :locals => {:record => @record} %>
     ActiveScaffold.create_record_row(action_link ? action_link.scaffold() : '<%= active_scaffold_id %>', '<%= escape_javascript(new_row) %>', <%= {:insert_at => insert_at}.to_json.html_safe %>);
     <%= render :partial => 'update_calculations', :formats => [:js] %>
   <% end %>
 
   <% unless render_parent? %>
+    console.log('unless render_parent? -> true');
     <% if active_scaffold_config.list.always_show_create %>
       ActiveScaffold.reset_form('<%= form_selector %>');
     <% elsif active_scaffold_config.create.persistent %>
@@ -39,6 +46,7 @@ action_link.update_flash_messages('<%= escape_javascript(render(:partial => 'mes
     <% end %>
   <% end %>
 <% else %>
+  console.log('controller.send :successful? -> else');
   ActiveScaffold.replace('<%= form_selector %>','<%= escape_javascript(render(:partial => 'create_form', :locals => {:xhr => true})) %>');
   ActiveScaffold.scroll_to('<%= form_selector %>', true);
 <% end %>

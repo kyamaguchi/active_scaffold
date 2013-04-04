@@ -3,22 +3,30 @@ try {
 var action_link = ActiveScaffold.find_action_link('<%= form_selector %>');
 action_link.update_flash_messages('<%= escape_javascript(render(:partial => 'messages')) %>');
 <% if controller.send :successful? %>
+  console.log('controller.send :successful?');
   <% if params[:dont_close] %>
+    console.log('params[:dont_close] -> true');
     <% row_selector = element_row_id(:action => :list, :id => @record.id) %>
     ActiveScaffold.update_row('<%= row_selector %>', '<%= escape_javascript(render(:partial => 'list_record', :locals => {:record => @record})) %>');
     action_link.target = $('#<%= row_selector %>');
     <%= render :partial => 'update_calculations', :formats => [:js] %>
     <%= "ActiveScaffold.enable_form('#{form_selector}');" if params[:iframe] == 'true' %>
   <% else %>
+    console.log('params[:dont_close] -> false');
     <% if render_parent? %>
+      console.log('render_parent? -> true');
       <% if nested_singular_association? || render_parent_action == :row %>
+        console.log('nested_singular_association? -> true');
         action_link.close(true);
       <% else %>
+        console.log('nested_singular_association? -> false');
         ActiveScaffold.reload('<%= url_for render_parent_options %>');
       <% end %>
     <% elsif update_refresh_list? %>
+      console.log('update_refresh_list? -> true');
       <%= render :partial => 'refresh_list' %>
     <% else %>
+      console.log('render_parent? -> else');
       <% if @record %>
       action_link.close('<%= escape_javascript(render(:partial => 'list_record', :locals => {:record => @record})) %>');
       <% else %>
@@ -29,6 +37,7 @@ action_link.update_flash_messages('<%= escape_javascript(render(:partial => 'mes
     <% end %>
   <% end %>
 <% else %>
+  console.log('controller.send :successful? -> else');
   ActiveScaffold.replace('<%= form_selector %>', '<%= escape_javascript(render(:partial => 'update_form', :locals => {:xhr => true})) %>');
   ActiveScaffold.scroll_to('<%= form_selector %>', true);
 <% end %>
